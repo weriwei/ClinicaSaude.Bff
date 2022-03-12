@@ -1,0 +1,12 @@
+version: '2.4'
+
+services:  clinicasaude-bff-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    container_name: clinicasaude-bff-sqlserver
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Senha123!
+      - MSSQL_PID=Developer
+    ports:
+      - 9003:1433

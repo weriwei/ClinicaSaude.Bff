@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <!--
+      Gera arquivo de documentação a partir de comentários XML.
+      É necessário para que as descrições adicionadas nas propriedades sejam exibidas na documentação da API.
+      Mais informações: https://docs.microsoft.com/pt-br/dotnet/csharp/language-reference/xmldoc/recommended-tags
+    -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--
+      Desabilita warnings que exigem adição de documentação XML em todos as propriedes.
+    -->
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+   <ItemGroup>
+    <ProjectReference Include="..\ClinicaSaude.Bff.Shared\ClinicaSaude.Bff.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
