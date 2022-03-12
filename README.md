@@ -1,7 +1,5 @@
 # ClinicaSaude.Bff
 
-Criado utilizando o template [Pottencial.Templates.Dotnet.Service](https://pottencial.visualstudio.com/Pottencial.Arquitetura/_git/Pottencial.Templates.Dotnet.Service)
-
 ## Configuração de desenvolvimento
 
 ### Pré-requisitos
