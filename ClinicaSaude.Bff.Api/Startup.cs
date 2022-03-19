@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NewRelic.LogEnrichers.Serilog;
 using Serilog;
 using Serilog.Filters;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
+using ClinicaSaude.Bff.Api.Authorization;
+using ClinicaSaude.Bff.Api.Services;
+using ClinicaSaude.Bff.Borders.Entities;
 
 namespace ClinicaSaude.Bff.Api
 {
@@ -23,24 +25,23 @@ namespace ClinicaSaude.Bff.Api
         {
             Configuration = configuration;
 
-            var loggerConfig = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
-                .Enrich.FromLogContext()
-                // Logs gerados nas rotas de healthcheck devem ser ignorados para evitar de poluir os logs
-                .Filter.ByExcluding(Matching.WithProperty("RequestPath", "/api/healthcheck"))
-                .Filter.ByExcluding(Matching.WithProperty("RequestPath", "/api/healthcheck/ping"));
+            // var loggerConfig = new LoggerConfiguration()
+            //     .ReadFrom.Configuration(Configuration)
+            //     .Enrich.FromLogContext()
+            //     // Logs gerados nas rotas de healthcheck devem ser ignorados para evitar de poluir os logs
+            //     .Filter.ByExcluding(Matching.WithProperty("RequestPath", "/api/healthcheck"))
+            //     .Filter.ByExcluding(Matching.WithProperty("RequestPath", "/api/healthcheck/ping"));
 
-            if (!env.IsEnvironment("Local"))
-            {
-                loggerConfig.Enrich.WithNewRelicLogsInContext();
-            }
 
-            Log.Logger = loggerConfig.CreateLogger();
+            // Log.Logger = loggerConfig.CreateLogger();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             var appConfig = Configuration.LoadConfiguration();
+
+            services.AddDbContext<DataContext>();
+            services.AddCors();
 
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -49,12 +50,16 @@ namespace ClinicaSaude.Bff.Api
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddSingleton(appConfig);
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionResultConverter, ActionResultConverter>();
+            services.AddSingleton<IJwtUtils, JwtUtils>();
 
             services.AddUseCases();
             services.AddRepositories();
+            services.AddServices();
             services.AddBearerAuthentication(appConfig);
             services.AddOpenApiDocumentation(appConfig);
         }
@@ -78,7 +83,6 @@ namespace ClinicaSaude.Bff.Api
             {
                 c.SwaggerEndpoint("/api-docs/v1/open-api.json", "ClinicaSaude.Bff.Api v1");
                 c.RoutePrefix = "api-docs";
-                c.OAuthScopes(new[] { appConfig.Authentication.Audience });
                 c.OAuthScopeSeparator(" ");
             });
 
@@ -86,6 +90,8 @@ namespace ClinicaSaude.Bff.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+             app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
