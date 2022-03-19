@@ -8,12 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Filters;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
-using ClinicaSaude.Bff.Api.Authorization;
-using ClinicaSaude.Bff.Api.Services;
-using ClinicaSaude.Bff.Borders.Entities;
 
 namespace ClinicaSaude.Bff.Api
 {
@@ -40,7 +36,6 @@ namespace ClinicaSaude.Bff.Api
         {
             var appConfig = Configuration.LoadConfiguration();
 
-            services.AddDbContext<DataContext>();
             services.AddCors();
 
             services.AddControllers()
@@ -50,16 +45,13 @@ namespace ClinicaSaude.Bff.Api
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
             services.AddSingleton(appConfig);
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionResultConverter, ActionResultConverter>();
-            services.AddSingleton<IJwtUtils, JwtUtils>();
+           
 
             services.AddUseCases();
             services.AddRepositories();
-            services.AddServices();
             services.AddBearerAuthentication(appConfig);
             services.AddOpenApiDocumentation(appConfig);
         }
@@ -90,8 +82,6 @@ namespace ClinicaSaude.Bff.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-             app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
