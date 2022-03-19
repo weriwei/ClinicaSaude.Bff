@@ -5,19 +5,19 @@ using ClinicaSaude.Bff.Borders.Shared;
 
 namespace ClinicaSaude.Bff.Api.Models
 {
-    public interface IActionResultConverter
+   public interface IActionResultConverter
     {
         IActionResult Convert<T>(UseCaseResponse<T> response, bool noContentIfSuccess = false);
     }
 
     public class ActionResultConverter : IActionResultConverter
     {
-        public IActionResult Convert<T>(UseCaseResponse<T> response, bool noContentIfSuccess = false)
+        public IActionResult Convert<T>(UseCaseResponse<T>? response, bool noContentIfSuccess = false)
         {
             if (response == null)
                 return BuildError(new[] { new ErrorMessage("000", "ActionResultConverter Error") }, UseCaseResponseKind.InternalServerError);
 
-            if (response.ErrorMessage  is null)
+            if (response.ErrorMessage is null)
             {
                 if (noContentIfSuccess)
                 {
@@ -25,7 +25,7 @@ namespace ClinicaSaude.Bff.Api.Models
                 }
                 else
                 {
-                    return BuildSuccessResult(response.Result);
+                    return BuildSuccessResult(response.Result!);
                 }
             }
             else if (response.Result != null)
@@ -39,14 +39,14 @@ namespace ClinicaSaude.Bff.Api.Models
                     ? new[] { new ErrorMessage("000", response.ErrorMessage ?? "Unknown error") }
                     : response.Errors;
 
-                return BuildError(errorResult, response.Status);
+                return BuildError(errorResult!, response.Status);
             }
         }
 
         private static IActionResult BuildSuccessResult(object data)
         {
             return new OkObjectResult(data);
-        } 
+        }
 
         private static ObjectResult BuildError(object data, UseCaseResponseKind status)
         {
