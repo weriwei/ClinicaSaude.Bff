@@ -50,7 +50,7 @@ namespace ClinicaSaude.Bff.Api
             services.AddSingleton<IActionResultConverter, ActionResultConverter>();
            
 
-            services.AddUseCases();
+            // services.AddUseCases();
             services.AddRepositories();
             services.AddBearerAuthentication(appConfig);
             services.AddOpenApiDocumentation(appConfig);
