@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
+using NewRelic.LogEnrichers.Serilog;
 
 namespace ClinicaSaude.Bff.Api
 {
@@ -21,15 +22,16 @@ namespace ClinicaSaude.Bff.Api
         {
             Configuration = configuration;
 
-            // var loggerConfig = new LoggerConfiguration()
-            //     .ReadFrom.Configuration(Configuration)
-            //     .Enrich.FromLogContext()
-            //     // Logs gerados nas rotas de healthcheck devem ser ignorados para evitar de poluir os logs
-            //     .Filter.ByExcluding(Matching.WithProperty("RequestPath", "/api/healthcheck"))
-            //     .Filter.ByExcluding(Matching.WithProperty("RequestPath", "/api/healthcheck/ping"));
+            var loggerConfig = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .Enrich.FromLogContext();
 
+                if (!env.IsEnvironment("Local"))
+            {
+                loggerConfig.Enrich.WithNewRelicLogsInContext();
+            }
 
-            // Log.Logger = loggerConfig.CreateLogger();
+            Log.Logger = loggerConfig.CreateLogger();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -50,7 +52,7 @@ namespace ClinicaSaude.Bff.Api
             services.AddSingleton<IActionResultConverter, ActionResultConverter>();
            
 
-            // services.AddUseCases();
+            services.AddUseCases();
             services.AddRepositories();
             services.AddBearerAuthentication(appConfig);
             services.AddOpenApiDocumentation(appConfig);

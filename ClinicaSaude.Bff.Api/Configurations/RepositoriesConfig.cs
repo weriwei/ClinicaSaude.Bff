@@ -8,7 +8,7 @@ namespace ClinicaSaude.Bff.Api.Configurations
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services) =>
             services
-                .AddSingleton<IDatabaseFactory, DatabaseFactory>()
-                .AddSingleton<IDatabaseRepository, DatabaseRepository>();
+                .AddSingleton<IUserRepository, UserRepository>()
+                .AddSingleton<IRepositoryHelper, RepositoryHelper>();
     }
 }

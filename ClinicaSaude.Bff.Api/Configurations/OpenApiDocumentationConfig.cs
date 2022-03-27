@@ -21,8 +21,6 @@ namespace ClinicaSaude.Bff.Api.Configurations
                     new() {
                         Title = "ClinicaSaude.Bff",
                         Version = "v1",
-                        // Enriquece descrição com informações sobre o projeto, build e delpoy da aplicação.
-                        // Mais informações: https://pottencial.sharepoint.com/sites/arquitetura.ti2/SitePages/Como-enriquecer-a-documenta%C3%A7%C3%A3o-do-Swagger.aspx
                         Description = BuildOpenApiDescription(config.ApiInfo),
                     }
                 );
@@ -34,31 +32,30 @@ namespace ClinicaSaude.Bff.Api.Configurations
                 xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
 
                 // Configura métodos de autenticação suportados pela API, para que os mesmos sejam exibidos na documentação.
-                var securityDefinitionid = "openIdConnect";
-                var scope = config.Authentication.Audience;
-                c.AddSecurityDefinition(securityDefinitionid, new()
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new()
-                    {
-                        ClientCredentials = new()
-                        {
-                            AuthorizationUrl = config.Authentication.Authority,
-                            Scopes = new Dictionary<string, string> { { scope, "" } },
-                            TokenUrl = new(config.Authentication.Authority, "/connect/token"),
-                        }
-                    }
-                });
-                c.AddSecurityRequirement(new()
-                {
-                    {
-                        new()
-                        {
-                            Reference = new() { Type = ReferenceType.SecurityScheme, Id = securityDefinitionid }
-                        },
-                        new[] { scope }
-                    }
-                });
+                
+                // c.AddSecurityDefinition(securityDefinitionid, new()
+                // {
+                //     Type = SecuritySchemeType.OAuth2,
+                //     Flows = new()
+                //     {
+                //         ClientCredentials = new()
+                //         {
+                //             AuthorizationUrl = config.Authentication.Authority,
+                //             Scopes = new Dictionary<string, string> { { scope, "" } },
+                //             TokenUrl = new(config.Authentication.Authority, "/connect/token"),
+                //         }
+                //     }
+                // });
+                // c.AddSecurityRequirement(new()
+                // {
+                //     {
+                //         new()
+                //         {
+                //             Reference = new() { Type = ReferenceType.SecurityScheme, Id = securityDefinitionid }
+                //         },
+                //         new[] { scope }
+                //     }
+                // });
             });
 
             return services;
