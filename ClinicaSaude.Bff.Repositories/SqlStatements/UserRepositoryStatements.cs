@@ -19,5 +19,7 @@ namespace ClinicaSaude.Bff.Repositories.SqlStatements
             VALUES (@Name, @Gender, @DocumentNumber, @Email,@Street, @Number, @City,
                 @District, @Complement, @ZipCode)";
 
+        public const string SELECT_BY_EMAIL = @"
+        SELECT * FROM users WHERE user_email = @Email";
     }
 }

@@ -39,7 +39,11 @@ namespace ClinicaSaude.Bff.Repositories
 
         public async Task<UserResponse> GetUserByEmail(string email)
         {
-            throw new System.NotImplementedException();
+            using IDbConnection connection = _helper.GetConnection();
+
+            var response = await connection.QueryFirstOrDefaultAsync<UserResponse>(UserRepositoryStatements.SELECT_BY_EMAIL);
+
+            return response;
         }
     }
 }
