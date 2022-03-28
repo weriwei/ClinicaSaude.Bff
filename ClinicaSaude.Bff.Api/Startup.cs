@@ -17,6 +17,7 @@ namespace ClinicaSaude.Bff.Api
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        readonly string CorsPolicy = "_myAllowSpecificOrigins";
 
         public Startup(IConfiguration configuration, IHostEnvironment env)
         {
@@ -38,7 +39,14 @@ namespace ClinicaSaude.Bff.Api
         {
             var appConfig = Configuration.LoadConfiguration();
 
-            services.AddCors();
+            services.AddCors(options => options.AddPolicy(CorsPolicy,
+            builder => {
+                builder
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
 
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -81,6 +89,7 @@ namespace ClinicaSaude.Bff.Api
             });
 
             app.UseRouting();
+            app.UseCors(CorsPolicy);
 
             app.UseAuthentication();
             app.UseAuthorization();
