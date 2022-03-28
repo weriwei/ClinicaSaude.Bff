@@ -10,6 +10,7 @@ namespace ClinicaSaude.Bff.Repositories
         public IDbConnection GetConnection()
         {
             return new NpgsqlConnection(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+
         }
     }
 }

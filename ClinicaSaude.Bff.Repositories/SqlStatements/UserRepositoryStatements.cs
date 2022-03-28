@@ -16,8 +16,8 @@ namespace ClinicaSaude.Bff.Repositories.SqlStatements
                 user_address_complement,
                 user_address_zipcode
                 )
-            VALUES ('@Name', '@Gender', '@DocumentNumber', '@Email','@Street', '@Number', '@City',
-                '@District', '@Complement', @ZipCode)";
+            VALUES (@Name, @Gender, @DocumentNumber, @Email,@Street, @Number, @City,
+                @District, @Complement, @ZipCode)";
 
     }
 }

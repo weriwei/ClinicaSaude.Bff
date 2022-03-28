@@ -15,16 +15,13 @@ namespace ClinicaSaude.Bff.UseCases.UserSignup
             _userRepository = userRepository;
         }
 
-        public async Task<UseCaseResponse<bool?>> Execute(UserSignupRequest request)
+        public async Task<UseCaseResponse<bool>> Execute(UserSignupRequest request)
         {
             //[WIP] Create validator to UserSignupRequest
 
-            var response = await _userRepository.CreateUser(request);
+            await _userRepository.CreateUser(request);
 
-            if(!response)
-                return UseCaseResponse<bool?>.BadGateway();
-
-            return UseCaseResponse<bool?>.Success(true);
+            return UseCaseResponse<bool>.Success(true);
         }
     }
 }

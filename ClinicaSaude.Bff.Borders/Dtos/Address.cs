@@ -7,6 +7,6 @@ namespace ClinicaSaude.Bff.Borders.Dtos
         public string City { get; init; } = string.Empty;
         public string District { get; init; } = string.Empty;
         public string Complement { get; init; } = string.Empty;
-        public int ZipCode { get; init; }
+        public string ZipCode { get; init; } = string.Empty;
     }
 }
