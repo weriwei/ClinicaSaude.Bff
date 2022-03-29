@@ -1,3 +1,4 @@
+using ClinicaSaude.Bff.Borders.Entities;
 using ClinicaSaude.Bff.Borders.Enum;
 
 namespace ClinicaSaude.Bff.Borders.Dtos

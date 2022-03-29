@@ -20,7 +20,7 @@ namespace ClinicaSaude.Bff.UseCases.UserLogin
             //[WIP] Create crypto to save hash from password into db
             var response = await _userRepository.GetUserByEmail(request.Email);
 
-            if (response.Password == request.Password)
+            if(response is not null && response.User_Password == request.Password)
                 return UseCaseResponse<bool>.Success(true);
 
             return UseCaseResponse<bool>.Success(false);

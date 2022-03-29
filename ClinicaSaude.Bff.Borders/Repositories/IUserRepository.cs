@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using ClinicaSaude.Bff.Borders.Dtos;
-
+using ClinicaSaude.Bff.Borders.Entities;
 
 namespace ClinicaSaude.Bff.Borders.Repositories
 {
     public interface IUserRepository
     {
-        Task<UserResponse> GetUserByEmail(string email);
+        Task<User> GetUserByEmail(string email);
         Task CreateUser(UserSignupRequest userRequest);
     }
 }

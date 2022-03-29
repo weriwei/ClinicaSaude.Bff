@@ -19,8 +19,8 @@ namespace ClinicaSaude.Bff.UseCases.UserSignup
         {
             //[WIP] Create validator to UserSignupRequest
 
-            await _userRepository.CreateUser(request);
-
+            await _userRepository.CreateUser(request); 
+           
             return UseCaseResponse<bool>.Success(true);
         }
     }

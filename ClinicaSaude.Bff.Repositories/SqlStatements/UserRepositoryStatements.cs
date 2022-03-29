@@ -7,6 +7,7 @@ namespace ClinicaSaude.Bff.Repositories.SqlStatements
             (
                 user_name, 
                 user_gender, 
+                user_password,
                 user_document, 
                 user_email,
                 user_address_street,
@@ -16,7 +17,7 @@ namespace ClinicaSaude.Bff.Repositories.SqlStatements
                 user_address_complement,
                 user_address_zipcode
                 )
-            VALUES (@Name, @Gender, @DocumentNumber, @Email,@Street, @Number, @City,
+            VALUES (@Name, @Gender, @Password, @DocumentNumber, @Email,@Street, @Number, @City,
                 @District, @Complement, @ZipCode)";
 
         public const string SELECT_BY_EMAIL = @"
