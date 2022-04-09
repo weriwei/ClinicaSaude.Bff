@@ -10,5 +10,7 @@ namespace ClinicaSaude.Bff.Shared.Constants
         public static readonly string EmptyValue = "Campo não pode ser vazio";
         public static readonly string InvalidEmail = "Email inválido";
         public static readonly string UserNotExist = "Email ou senha não correspondem à uma conta válida";
+        public static readonly string InvalideDate = "Data de nascimento informada é inválida";
+
     }
 }

@@ -9,6 +9,7 @@ namespace ClinicaSaude.Bff.Api.Configurations
             services.AddSingleton<UserSignupRequestValidator>()
                     .AddSingleton<AddressValidator>()
                     .AddSingleton<ZipCodeValidator>()
-                    .AddSingleton<UserLoginRequestValidator>();
+                    .AddSingleton<UserLoginRequestValidator>()
+                    .AddSingleton<EmailValidator>();
     }
 }
