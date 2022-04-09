@@ -62,6 +62,7 @@ namespace ClinicaSaude.Bff.Api
 
             services.AddUseCases();
             services.AddRepositories();
+            services.AddValidators();
             services.AddBearerAuthentication(appConfig);
             services.AddOpenApiDocumentation(appConfig);
         }

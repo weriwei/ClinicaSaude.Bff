@@ -6,7 +6,7 @@ namespace ClinicaSaude.Bff.Borders.Repositories
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByEmail(string email);
-        Task CreateUser(UserSignupRequest userRequest);
+        Task<User?> GetUserByEmail(string email);
+        Task<bool> CreateUser(UserSignupRequest userRequest);
     }
 }

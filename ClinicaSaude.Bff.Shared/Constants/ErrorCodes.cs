@@ -7,6 +7,8 @@ namespace ClinicaSaude.Bff.Shared.Constants
         public static string NotFound => $"{prefix}.01";
         public static string BadGateway => $"{prefix}.02";
         public static string InvalidValue => $"{prefix}.03";
+        public static string ValidationError = prefix + "04";
+        public static string InternalServerError = prefix + "05";
         
     }
 }

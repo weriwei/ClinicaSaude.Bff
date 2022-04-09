@@ -1,3 +1,4 @@
+using System;
 using ClinicaSaude.Bff.Borders.Entities;
 using ClinicaSaude.Bff.Borders.Enum;
 
@@ -11,5 +12,6 @@ namespace ClinicaSaude.Bff.Borders.Dtos
         public GenderType Gender { get; init; }
         public string DocumentNumber { get; init; } = string.Empty;
         public Address Address { get; init; } = new Address();
+        public DateTime Birthday { get; init; } = new DateTime();
     }
 }

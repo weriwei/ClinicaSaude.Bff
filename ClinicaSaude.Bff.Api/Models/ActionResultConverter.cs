@@ -25,7 +25,7 @@ namespace ClinicaSaude.Bff.Api.Models
                 }
                 else
                 {
-                    return BuildSuccessResult(response.Result!);
+                    return BuildSuccessResult(response.Result, response.Status, response.ResultId);
                 }
             }
             else if (response.Result != null)
@@ -43,9 +43,13 @@ namespace ClinicaSaude.Bff.Api.Models
             }
         }
 
-        private static IActionResult BuildSuccessResult(object data)
+        private static IActionResult BuildSuccessResult(object? data, UseCaseResponseKind status, string? id)
         {
-            return new OkObjectResult(data);
+            return status switch
+            {
+                UseCaseResponseKind.DataPersisted => new CreatedResult(id!, data),
+                _ => new OkObjectResult(data)
+            };
         }
 
         private static ObjectResult BuildError(object data, UseCaseResponseKind status)
@@ -60,29 +64,18 @@ namespace ClinicaSaude.Bff.Api.Models
 
         private static HttpStatusCode GetErrorHttpStatusCode(UseCaseResponseKind status)
         {
-            switch (status)
+            return status switch
             {
-                case UseCaseResponseKind.RequestValidationError:
-                case UseCaseResponseKind.ForeignKeyViolationError:
-                case UseCaseResponseKind.BadRequest:
-                    return HttpStatusCode.BadRequest;
-                case UseCaseResponseKind.Unauthorized:
-                    return HttpStatusCode.Unauthorized;
-                case UseCaseResponseKind.Forbidden:
-                    return HttpStatusCode.Forbidden;
-                case UseCaseResponseKind.NotFound:
-                    return HttpStatusCode.NotFound;
-                case UseCaseResponseKind.UniqueViolationError:
-                    return HttpStatusCode.Conflict;
-                case UseCaseResponseKind.Unavailable:
-                    return HttpStatusCode.ServiceUnavailable;
-                case UseCaseResponseKind.BadGateway:
-                    return HttpStatusCode.BadGateway;
-                case UseCaseResponseKind.UnprocessableEntity:
-                    return HttpStatusCode.UnprocessableEntity;
-                default:
-                    return HttpStatusCode.InternalServerError;
-            }
+                UseCaseResponseKind.RequestValidationError or UseCaseResponseKind.ForeignKeyViolationError or UseCaseResponseKind.BadRequest => HttpStatusCode.BadRequest,
+                UseCaseResponseKind.Unauthorized => HttpStatusCode.Unauthorized,
+                UseCaseResponseKind.Forbidden => HttpStatusCode.Forbidden,
+                UseCaseResponseKind.NotFound => HttpStatusCode.NotFound,
+                UseCaseResponseKind.UniqueViolationError => HttpStatusCode.Conflict,
+                UseCaseResponseKind.Unavailable => HttpStatusCode.ServiceUnavailable,
+                UseCaseResponseKind.BadGateway => HttpStatusCode.BadGateway,
+                UseCaseResponseKind.UnprocessableEntity => HttpStatusCode.UnprocessableEntity,
+                _ => HttpStatusCode.InternalServerError,
+            };
         }
     }
 }
