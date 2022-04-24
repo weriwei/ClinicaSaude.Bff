@@ -39,6 +39,7 @@ namespace ClinicaSaude.Bff.Borders.Shared
 
         public static UseCaseResponse<T> Persisted(T result, string resultId) => new(UseCaseResponseKind.DataPersisted, result, resultId);
         public static UseCaseResponse<T> Success(T result) => new(UseCaseResponseKind.Success, result);
+        public static UseCaseResponse<T> Success() => new(UseCaseResponseKind.Success);
         public static UseCaseResponse<T> Accepted(T result) => new(UseCaseResponseKind.DataAccepted, result);
         public static UseCaseResponse<T> Accepted(T result, string resultId) => new(UseCaseResponseKind.DataAccepted, result, resultId);
         public static UseCaseResponse<T> Unavailable(T result) => new(UseCaseResponseKind.Unavailable, result) { ErrorMessage = "Service Unavailable" };
@@ -51,6 +52,5 @@ namespace ClinicaSaude.Bff.Borders.Shared
         public static UseCaseResponse<T> BadGateway(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.BadGateway, "Bad Gateway", errors);
         public static UseCaseResponse<T> InternalServerError(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.InternalServerError, "Internal Server Error", errors);
         public static UseCaseResponse<T> InternalServerError() => InternalServerError(new ErrorMessage[] { new ErrorMessage(ErrorCodes.InternalServerError, ErrorMessages.ErrorMessageStatus500) });
-        public bool Success() => string.IsNullOrEmpty(ErrorMessage) && !Errors.Any();
     }
 }

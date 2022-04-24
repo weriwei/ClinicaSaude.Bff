@@ -1,10 +1,11 @@
-using ClinicaSaude.Bff.Borders.Dtos;
+using System;
+using System.Collections.Generic;
 using ClinicaSaude.Bff.Borders.Entities;
 using ClinicaSaude.Bff.Borders.Shared;
 
 namespace ClinicaSaude.Bff.Borders.UseCases
 {
-    public interface IUserLoginUseCase : IUseCase<UserLoginRequest, UserResponse?>
+    public interface IGetDependentUseCase : IUseCase<Guid,IEnumerable<Dependent>>
     {
          
     }
