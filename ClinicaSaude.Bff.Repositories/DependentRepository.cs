@@ -12,7 +12,7 @@ namespace ClinicaSaude.Bff.Repositories
 {
     public class DependentRepository : IDependentRepository
     {
-         private IRepositoryHelper _helper;
+        private IRepositoryHelper _helper;
 
         public DependentRepository(IRepositoryHelper helper)
         {

@@ -22,6 +22,6 @@ namespace ClinicaSaude.Bff.Repositories.SqlStatements
                 @District, @Complement, @ZipCode)";
 
         public const string SELECT_BY_EMAIL = @"
-        SELECT * FROM users WHERE user_email = @Email";
+            SELECT * FROM users WHERE user_email = @Email";
     }
 }
