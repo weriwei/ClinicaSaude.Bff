@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ClinicaSaude.Bff.Api.Models;
+using ClinicaSaude.Bff.Borders.Dtos;
 using ClinicaSaude.Bff.Borders.Entities;
 using ClinicaSaude.Bff.Borders.Shared;
 using ClinicaSaude.Bff.Borders.UseCases;
@@ -11,44 +12,44 @@ namespace ClinicaSaude.Bff.Api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class SpecialityController : ControllerBase
+    public class AppointmentController : ControllerBase
     {
         private readonly IActionResultConverter _actionResultConverter;
-        private IGetSpecialitysUseCase _getSpecialitysUseCase;
-        private IGetDoctorsUseCase _getDoctorsUseCase;
+        private ICreateAppointmentUseCase _createAppointmentUseCase;
+        private IGetAppointmentsUseCase _getAppointmentsUseCase;
 
-        public SpecialityController(IActionResultConverter actionResultConverter, IGetSpecialitysUseCase getSpecialitysUseCase, IGetDoctorsUseCase getDoctorsUseCase)
+        public AppointmentController(IActionResultConverter actionResultConverter, ICreateAppointmentUseCase createAppointmentUseCase, IGetAppointmentsUseCase getAppointmentsUseCase)
         {
             _actionResultConverter = actionResultConverter;
-            _getSpecialitysUseCase = getSpecialitysUseCase;
-            _getDoctorsUseCase = getDoctorsUseCase;
+            _createAppointmentUseCase = createAppointmentUseCase;
+            _getAppointmentsUseCase = getAppointmentsUseCase;
         }
 
         /// <summary>
-        /// Get specialitys
+        /// Create an appointment
         /// </summary>
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Speciality[]))]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorMessage[]))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
-        public async Task<IActionResult> GetSpecialitys()
+        public async Task<IActionResult> UserSignup([FromBody] AppointmentRequest request)
         {
-            var response = await _getSpecialitysUseCase.Execute();
+            var response = await _createAppointmentUseCase.Execute(request);
             return _actionResultConverter.Convert(response);
         }
 
         /// <summary>
-        /// Get doctors by speciality id
+        /// Get appointments by patient id
         /// </summary>
-        [HttpGet("doctor/{speciality}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Doctor[]))]
+        [HttpGet("{patientId}")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AppointmentResponse[]))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorMessage[]))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
-        public async Task<IActionResult> GetDoctorsBySpecialityId(Guid speciality)
+        public async Task<IActionResult> GetAppointmentsByPatientId(Guid patientId)
         {
-            var response = await _getDoctorsUseCase.Execute(speciality);
+            var response = await _getAppointmentsUseCase.Execute(patientId);
             return _actionResultConverter.Convert(response);
         }
     }

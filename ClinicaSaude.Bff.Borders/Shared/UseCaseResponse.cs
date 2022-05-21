@@ -48,6 +48,7 @@ namespace ClinicaSaude.Bff.Borders.Shared
         public static UseCaseResponse<T> NotFound(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.NotFound, "Data not found", errors);
         public static UseCaseResponse<T> BadRequest(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.BadRequest, "Bad Request", errors);
         public static UseCaseResponse<T> BadRequest(string message) => new(UseCaseResponseKind.BadRequest, message);
+        public static UseCaseResponse<T> BadGateway(string message) => new(UseCaseResponseKind.BadGateway, message);
         public static UseCaseResponse<T> BadGateway() => BadGateway(new ErrorMessage[] { new ErrorMessage(ErrorCodes.BadGateway, ErrorMessages.ErrorMessageStatus500) });
         public static UseCaseResponse<T> BadGateway(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.BadGateway, "Bad Gateway", errors);
         public static UseCaseResponse<T> InternalServerError(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.InternalServerError, "Internal Server Error", errors);

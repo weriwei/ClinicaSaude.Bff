@@ -11,6 +11,9 @@ namespace ClinicaSaude.Bff.Api.Configurations
                 .AddSingleton<IUserRepository, UserRepository>()
                 .AddSingleton<IRepositoryHelper, RepositoryHelper>()
                 .AddSingleton<IDependentRepository, DependentRepository>()
-                .AddSingleton<ISpecialityRepository, SpecialityRepository>();
+                .AddSingleton<ISpecialityRepository, SpecialityRepository>()
+                .AddSingleton<IDoctorRepository, DoctorRepository>()
+                .AddSingleton<ISchedulesRepository, SchedulesRepository>()
+                .AddSingleton<IAppointmentsRepository, AppointmentsRepository>();
     }
 }
