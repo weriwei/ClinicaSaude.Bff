@@ -8,5 +8,9 @@ namespace ClinicaSaude.Bff.Repositories.SqlStatements
                 where rds.id_speciality = @Id";
 
         public const string GET_DOCTOR_SCHEDULES_BY_DOCTOR_ID = @"SELECT * from schedules WHERE id_doctor = @Id";
+
+        public const string GET_SCHEDULES_AVAILABLE_BY_DOCTOR_ID = @"
+            SELECT * FROM schedules 
+                WHERE id NOT IN (SELECT id_schedule FROM appointment) AND schedules.id_doctor = @Id";
     }
 }

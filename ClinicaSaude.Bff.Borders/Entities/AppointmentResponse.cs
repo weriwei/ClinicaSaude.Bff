@@ -5,8 +5,8 @@ namespace ClinicaSaude.Bff.Borders.Entities
 {
     public record AppointmentResponse
     {
-        public Guid Id_Schedule { get; init; }
-        public Guid Id_Patient { get; init; }
+        public string Name { get; init; } = string.Empty;
+        public string Speciality { get; init; } = string.Empty;
         public DateTime Date { get; init; }
         public AppointmentStatusType Status { get; init; }
     }

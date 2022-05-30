@@ -12,7 +12,10 @@ namespace ClinicaSaude.Bff.Repositories.SqlStatements
             VALUES (@Id_Schedule, @Id_Patient, @Status)";
 
         public const string GET_APPOINTMENTS_BY_PATIENT_ID = @"
-            SELECT *, (SELECT date from schedules WHERE id = id_schedule) 
-            FROM appointment WHERE id_patient = @Id_Patient";
+            SELECT appointment.status, doctor.name, schedules.date,
+                (SELECT name from speciality join relationship_doctor_speciality as rds on speciality.id = rds.id_speciality WHERE rds.id_doctor = doctor.id) AS speciality FROM appointment 
+                JOIN schedules on schedules.id = appointment.id_schedule 
+                JOIN doctor on doctor.id = schedules.id_doctor 
+                WHERE appointment.id_patient = @Id_Patient";
     }
 }

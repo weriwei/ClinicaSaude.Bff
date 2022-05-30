@@ -22,7 +22,7 @@ namespace ClinicaSaude.Bff.Repositories
         {
             using IDbConnection connection = _helper.GetConnection();
 
-            var response = await connection.QueryAsync<Schedule>(DoctorRepositoryStatements.GET_DOCTOR_SCHEDULES_BY_DOCTOR_ID, new { Id = doctorId });
+            var response = await connection.QueryAsync<Schedule>(DoctorRepositoryStatements.GET_SCHEDULES_AVAILABLE_BY_DOCTOR_ID, new { Id = doctorId });
 
             return response;
         }   

@@ -4,6 +4,7 @@ namespace ClinicaSaude.Bff.Borders.Enum
     {
         Scheduled = 1,
         Canceled =2,
-        Finished = 3
+        Finished = 3,
+        Available = 4
     }
 }

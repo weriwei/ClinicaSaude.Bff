@@ -22,16 +22,17 @@ namespace ClinicaSaude.Bff.UseCases.Appointment
             {
                 var response = await _appointmentsRepository.CreateAppointment(request);
 
-                if(response.Equals("true"))
+                if(response)
                 {
                     return UseCaseResponse<bool>.Success(true);
                 }
 
-                return UseCaseResponse<bool>.BadGateway(response);
+                return UseCaseResponse<bool>.BadRequest(ErrorMessages.ErrorMessageStatus404);
             }
             catch
             {
-                return UseCaseResponse<bool>.BadRequest(ErrorMessages.ErrorMessageStatus404);
+                
+                return UseCaseResponse<bool>.BadGateway(ErrorMessages.ErrorMessageStatus500);
             }
         }
     }

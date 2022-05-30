@@ -20,7 +20,7 @@ namespace ClinicaSaude.Bff.Repositories
             _helper = helper;
         }
 
-        public async Task<string> CreateAppointment(AppointmentRequest request)
+        public async Task<bool> CreateAppointment(AppointmentRequest request)
         {
             try
             {
@@ -34,11 +34,11 @@ namespace ClinicaSaude.Bff.Repositories
 
                 await connection.QueryAsync<bool>(AppointmentsRepositoryStatements.INSERT_APPOINTMENT, parameters);
 
-                return true.ToString();
+                return true;
             }
-            catch(PostgresException ex)
+            catch
             {
-                return ex.MessageText;
+                return false;
             }
         }
 
